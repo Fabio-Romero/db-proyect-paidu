@@ -139,7 +139,7 @@ def filter_publications_by_date_and_faculty(request):
     """
     publications = Publication.objects.filter(
         Q(publication_date__year=2023) &
-        (Q(user__program__faculty__name__icontains="Ingeniería") |
+        (Q(user__program__faculty__name__icontains="Ingenieria") |
          Q(user__program__faculty__name__icontains="Ciencias de la Salud"))
     ).distinct()
 

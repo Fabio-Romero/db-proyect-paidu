@@ -12,7 +12,7 @@ urlpatterns = [
     path('filter/word-date/', filter_publications_by_word_date, name='filter-publications'),  
     
     # URL to filter publications by date and faculty
-    path('filter/date-faculty/', filter_publications_by_date_and_faculty, name='filter-publications-by-date-and-faculty'),  
+    path('filter/year-faculty/', filter_publications_by_date_and_faculty, name='filter-publications-by-date-and-faculty'),  
     
     # URL to group publications by research group
     path('count/research-group/', group_publications_by_research_group, name='group-publications-by-research-group'),  

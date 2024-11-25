@@ -84,11 +84,11 @@ WSGI_APPLICATION = 'paidu.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-   'mysql': {
+   'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'paidu',
-        'USER': 'fabio',
-        'PASSWORD': '12345678',
+        'USER': 'cristian',
+        'PASSWORD': '123Cristian-',
         'HOST': 'localhost',
         'PORT': '3306'
 
@@ -112,7 +112,7 @@ DATABASES = {
             'driver': 'ODBC Driver 17 for SQL Server', 
         },
     },
-    'default': {
+    'oracle': {
         'ENGINE': 'django.db.backends.oracle',  # engine: Oracle
         'NAME': 'xe',      
         'USER': 'paidu',               

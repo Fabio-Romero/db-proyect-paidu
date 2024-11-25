@@ -22,4 +22,5 @@ class ResearchGroup(models.Model):
         
         This method returns the name of the research group when an instance is printed or displayed.
         """
+        return self.name
    

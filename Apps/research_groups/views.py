@@ -1,10 +1,12 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from drf_yasg.utils import swagger_auto_schema
 from .models import ResearchGroup
 from .serializers import ResearchGroupSerializer
+from rest_framework.decorators import api_view
+from django.db.models import Q
 
 
 class ResearchGroupList(APIView):
@@ -128,3 +130,26 @@ class ResearchGroupDetail(APIView):
         group = self.get_object(pk)
         group.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+@api_view(['GET'])
+def filter_research_groups_by_technology(request):
+    """
+    Filter research groups based on text conditions related to new technologies:
+    - The name contains 'Technology', 'Innovation', or 'Development', and
+    - The description includes 'implementation', 'new technologies', or 'advancement'.
+    """
+
+    # We build the text conditions with Q()
+    research_groups = ResearchGroup.objects.filter(
+        (Q(name__icontains="Tecnologia") | Q(name__icontains="Innovacion")) &  # Name
+        (Q(description__icontains="implementacion") | Q(description__icontains="nuevas tecnologias") | Q(description__icontains="adelanto"))  # Description
+    )
+
+    # We serialize the data
+    serializer = ResearchGroupSerializer(research_groups, many=True)
+
+    # If there are no results, we return a message
+    if not research_groups.exists():
+        return JsonResponse({"detail": "No research groups found related to new technologies."}, status=404)
+
+    return JsonResponse(serializer.data, safe=False)

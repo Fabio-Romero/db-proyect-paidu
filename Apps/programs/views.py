@@ -8,6 +8,10 @@ from .serializers import FacultySerializer, ProgramSerializer
 
 
 class FacultyList(APIView):
+    """
+    Handles listing all faculties and creating new faculties.
+    """
+
     @swagger_auto_schema(
         operation_description="Retrieve a list of all faculties.",
         responses={200: FacultySerializer(many=True)}
@@ -16,9 +20,9 @@ class FacultyList(APIView):
         """
         Retrieve a list of all faculties.
         """
-        faculties = Faculty.objects.all()
-        serializer = FacultySerializer(faculties, many=True)
-        return Response(serializer.data)
+        faculties = Faculty.objects.all()  # Fetch all faculty records
+        serializer = FacultySerializer(faculties, many=True)  # Serialize the data
+        return Response(serializer.data)  # Return serialized data as response
 
     @swagger_auto_schema(
         operation_description="Create a new faculty.",
@@ -32,21 +36,25 @@ class FacultyList(APIView):
         """
         Create a new faculty.
         """
-        serializer = FacultySerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer = FacultySerializer(data=request.data)  # Deserialize input data
+        if serializer.is_valid():  # Validate the input
+            serializer.save()  # Save the new faculty
+            return Response(serializer.data, status=status.HTTP_201_CREATED)  # Return success response
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)  # Return validation errors
 
 
 class FacultyDetail(APIView):
+    """
+    Handles retrieving, updating, and deleting a specific faculty.
+    """
+
     def get_object(self, pk):
         """
         Retrieve a specific faculty by primary key (pk).
         """
         try:
-            return Faculty.objects.get(pk=pk)
-        except Faculty.DoesNotExist:
+            return Faculty.objects.get(pk=pk)  # Fetch faculty by primary key
+        except Faculty.DoesNotExist:  # Handle case when faculty is not found
             raise Http404
 
     @swagger_auto_schema(
@@ -57,9 +65,9 @@ class FacultyDetail(APIView):
         """
         Retrieve details of a specific faculty.
         """
-        faculty = self.get_object(pk)
-        serializer = FacultySerializer(faculty)
-        return Response(serializer.data)
+        faculty = self.get_object(pk)  # Get the faculty object
+        serializer = FacultySerializer(faculty)  # Serialize the data
+        return Response(serializer.data)  # Return serialized data
 
     @swagger_auto_schema(
         operation_description="Update an existing faculty.",
@@ -74,12 +82,12 @@ class FacultyDetail(APIView):
         """
         Update an existing faculty's data.
         """
-        faculty = self.get_object(pk)
-        serializer = FacultySerializer(faculty, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        faculty = self.get_object(pk)  # Get the faculty object
+        serializer = FacultySerializer(faculty, data=request.data)  # Deserialize input data
+        if serializer.is_valid():  # Validate the input
+            serializer.save()  # Save the updated faculty
+            return Response(serializer.data)  # Return updated data
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)  # Return validation errors
 
     @swagger_auto_schema(
         operation_description="Delete a specific faculty.",
@@ -89,12 +97,16 @@ class FacultyDetail(APIView):
         """
         Delete a specific faculty.
         """
-        faculty = self.get_object(pk)
-        faculty.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        faculty = self.get_object(pk)  # Get the faculty object
+        faculty.delete()  # Delete the faculty
+        return Response(status=status.HTTP_204_NO_CONTENT)  # Return no content status
 
 
 class ProgramList(APIView):
+    """
+    Handles listing all programs and creating new programs.
+    """
+
     @swagger_auto_schema(
         operation_description="Retrieve a list of all programs.",
         responses={200: ProgramSerializer(many=True)}
@@ -103,9 +115,9 @@ class ProgramList(APIView):
         """
         Retrieve a list of all programs.
         """
-        programs = Program.objects.all()
-        serializer = ProgramSerializer(programs, many=True)
-        return Response(serializer.data)
+        programs = Program.objects.all()  # Fetch all program records
+        serializer = ProgramSerializer(programs, many=True)  # Serialize the data
+        return Response(serializer.data)  # Return serialized data as response
 
     @swagger_auto_schema(
         operation_description="Create a new program.",
@@ -119,21 +131,25 @@ class ProgramList(APIView):
         """
         Create a new program.
         """
-        serializer = ProgramSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer = ProgramSerializer(data=request.data)  # Deserialize input data
+        if serializer.is_valid():  # Validate the input
+            serializer.save()  # Save the new program
+            return Response(serializer.data, status=status.HTTP_201_CREATED)  # Return success response
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)  # Return validation errors
 
 
 class ProgramDetail(APIView):
+    """
+    Handles retrieving, updating, and deleting a specific program.
+    """
+
     def get_object(self, pk):
         """
         Retrieve a specific program by primary key (pk).
         """
         try:
-            return Program.objects.get(pk=pk)
-        except Program.DoesNotExist:
+            return Program.objects.get(pk=pk)  # Fetch program by primary key
+        except Program.DoesNotExist:  # Handle case when program is not found
             raise Http404
 
     @swagger_auto_schema(
@@ -144,9 +160,9 @@ class ProgramDetail(APIView):
         """
         Retrieve details of a specific program.
         """
-        program = self.get_object(pk)
-        serializer = ProgramSerializer(program)
-        return Response(serializer.data)
+        program = self.get_object(pk)  # Get the program object
+        serializer = ProgramSerializer(program)  # Serialize the data
+        return Response(serializer.data)  # Return serialized data
 
     @swagger_auto_schema(
         operation_description="Update an existing program.",
@@ -161,12 +177,12 @@ class ProgramDetail(APIView):
         """
         Update an existing program's data.
         """
-        program = self.get_object(pk)
-        serializer = ProgramSerializer(program, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        program = self.get_object(pk)  # Get the program object
+        serializer = ProgramSerializer(program, data=request.data)  # Deserialize input data
+        if serializer.is_valid():  # Validate the input
+            serializer.save()  # Save the updated program
+            return Response(serializer.data)  # Return updated data
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)  # Return validation errors
 
     @swagger_auto_schema(
         operation_description="Partially update an existing program.",
@@ -181,12 +197,12 @@ class ProgramDetail(APIView):
         """
         Partially update an existing program's data.
         """
-        program = self.get_object(pk)
-        serializer = ProgramSerializer(program, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        program = self.get_object(pk)  # Get the program object
+        serializer = ProgramSerializer(program, data=request.data, partial=True)  # Deserialize input data for partial update
+        if serializer.is_valid():  # Validate the input
+            serializer.save()  # Save the updated program
+            return Response(serializer.data)  # Return updated data
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)  # Return validation errors
 
     @swagger_auto_schema(
         operation_description="Delete a specific program.",
@@ -196,6 +212,7 @@ class ProgramDetail(APIView):
         """
         Delete a specific program.
         """
-        program = self.get_object(pk)
-        program.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        program = self.get_object(pk)  # Get the program object
+        program.delete()  # Delete the program
+        return Response(status=status.HTTP_204_NO_CONTENT)  # Return no content status
+

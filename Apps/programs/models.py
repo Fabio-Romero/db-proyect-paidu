@@ -1,18 +1,20 @@
 from django.db import models
 
 class Faculty(models.Model):
-    # Nombre de la facultad, único
+    # Faculty name, must be unique
     name = models.CharField(max_length=255, unique=True)
 
     def __str__(self):
+        # Returns the faculty name as its string representation
         return self.name
 
 
 class Program(models.Model):
-    # Nombre del programa académico, único
+    # Academic program name, must be unique
     name = models.CharField(max_length=255, unique=True)
-    # Relación con la facultad (ForeignKey) que elimina el programa si se elimina la facultad
+    # Relationship with the Faculty model (ForeignKey), deletes the program if the related faculty is deleted
     faculty = models.ForeignKey(Faculty, on_delete=models.CASCADE)
 
     def __str__(self):
+        # Returns the program name as its string representation
         return self.name
